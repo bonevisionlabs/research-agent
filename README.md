@@ -100,7 +100,7 @@ Claude Code:
 | **metrics** | Statistical tests & evaluation | `run_wilcoxon_test()`, `run_paired_ttest()`, `compute_descriptive_stats()` |
 | **docx_builder** | DOCX paper compilation | `compile_paper()`, `insert_figure()`, `insert_table()` |
 | **review_criteria** | Peer review rubrics & checklists | `REVIEW_CRITERIA`, `COMPLETENESS_CHECKLIST` |
-| **workflow** | DAG-based task state tracking | `Workflow`, `Task`, `get_runnable_tasks()` |
+| **workflow** | DAG-based task state tracking | `Workflow`, `Task`, `next_tasks()` |
 
 ## Features
 

@@ -40,7 +40,7 @@ print(f"Baseline:   {stats_b['mean']:.1f} +/- {stats_b['std']:.1f}%")
 
 comparison = run_group_comparison(model_a_acc, model_b_acc, labels=("Ours", "Baseline"))
 print(f"\nWilcoxon p-value: {comparison['wilcoxon']['p_value']:.4f}")
-print(f"Cohen's d:        {comparison['ttest']['effect_size_d']:.2f}")
+print(f"Cohen's d:        {comparison['paired_ttest']['effect_size_d']:.2f}")
 
 # ── 3. Generate Figures ──────────────────────────────────────────────────────
 

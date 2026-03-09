@@ -48,10 +48,21 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from docx import Document
-from docx.shared import Inches, Pt, Cm
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.table import WD_TABLE_ALIGNMENT
+# python-docx is imported lazily inside functions that need it,
+# so users can import PaperConfig / register_paper without installing docx.
+def _import_docx():
+    """Lazy import of python-docx (raises ImportError with helpful message)."""
+    try:
+        from docx import Document
+        from docx.shared import Inches, Pt, Cm
+        from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.enum.table import WD_TABLE_ALIGNMENT
+    except ImportError:
+        raise ImportError(
+            "python-docx is required for document compilation. "
+            "Install it with: pip install research-agent[full] or pip install python-docx"
+        )
+    return Document, Inches, Pt, Cm, WD_ALIGN_PARAGRAPH, WD_TABLE_ALIGNMENT
 
 from . import config
 
@@ -331,6 +342,8 @@ def compile_paper(
     except Exception:
         pass
 
+    Document, Inches, Pt, Cm, WD_ALIGN_PARAGRAPH, WD_TABLE_ALIGNMENT = _import_docx()
+
     doc = Document()
 
     # -- Styles ---------------------------------------------------------------
@@ -496,7 +509,7 @@ def compile_paper2(**kwargs) -> Path:
 # Figure insertion
 # ---------------------------------------------------------------------------
 
-def insert_figure(doc: Document, figure_path: Path, caption: str) -> None:
+def insert_figure(doc: "Document", figure_path: Path, caption: str) -> None:
     """Insert a figure with caption into the document.
 
     Parameters
@@ -508,6 +521,8 @@ def insert_figure(doc: Document, figure_path: Path, caption: str) -> None:
     caption:
         Caption text rendered below the image in 10 pt italic.
     """
+    _, Inches, Pt, _, WD_ALIGN_PARAGRAPH, _ = _import_docx()
+
     doc.add_paragraph()
     fig_para = doc.add_paragraph()
     fig_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -527,7 +542,7 @@ def insert_figure(doc: Document, figure_path: Path, caption: str) -> None:
 # ---------------------------------------------------------------------------
 
 def insert_table(
-    doc: Document,
+    doc: "Document",
     columns: List[str],
     rows: List[Any],
     caption: str = "",
@@ -548,6 +563,8 @@ def insert_table(
     """
     if not columns or not rows:
         return
+
+    _, _, Pt, _, _, WD_TABLE_ALIGNMENT = _import_docx()
 
     if caption:
         cap_para = doc.add_paragraph()
@@ -591,7 +608,7 @@ def insert_table(
 # ---------------------------------------------------------------------------
 
 def append_figures(
-    doc: Document,
+    doc: "Document",
     figures_dir: Path,
     figure_captions: Optional[Dict[str, str]] = None,
 ) -> None:
