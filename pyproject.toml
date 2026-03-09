@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "research-agent"
+version = "0.1.0"
+description = "PhD-level research paper toolkit — Claude Code as brain, pure Python functions as tools."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Jaron Mohammed" },
+]
+keywords = [
+    "research",
+    "scientific-writing",
+    "paper-toolkit",
+    "claude-code",
+    "agent-skills",
+    "publication",
+    "docx",
+    "matplotlib",
+    "statistics",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Text Processing :: Markup",
+]
+
+dependencies = [
+    "python-docx>=1.1.0",
+    "matplotlib>=3.8.0",
+    "numpy>=1.24.0",
+    "scipy>=1.11.0",
+]
+
+[project.optional-dependencies]
+full = [
+    "seaborn>=0.13.0",
+    "Pillow>=10.0.0",
+    "trimesh>=4.0.0",
+]
+dev = [
+    "pytest>=7.0",
+    "ruff>=0.4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/jaron-mo/research-agent"
+Repository = "https://github.com/jaron-mo/research-agent"
+Issues = "https://github.com/jaron-mo/research-agent/issues"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

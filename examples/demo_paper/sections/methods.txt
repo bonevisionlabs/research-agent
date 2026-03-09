@@ -1,0 +1,15 @@
+## 2.1 Dataset
+
+We use a benchmark dataset comprising 10,000 images across 10 categories, with 1,000 images per category. Images are resized to 224x224 pixels and normalized using ImageNet statistics. Data augmentation includes random horizontal flips, rotations up to 15 degrees, and color jitter.
+
+## 2.2 Model Architecture
+
+Our pipeline evaluates three convolutional neural network architectures: a baseline CNN with 5 convolutional layers, a ResNet-50 model pre-trained on ImageNet, and a fine-tuned variant with domain-specific head replacement. All models output a 10-dimensional softmax probability vector.
+
+## 2.3 Training Protocol
+
+Models are trained using stochastic gradient descent with momentum (0.9), an initial learning rate of 0.001 with cosine annealing, and a batch size of 32. Training runs for 100 epochs with early stopping based on validation loss (patience = 10 epochs).
+
+## 2.4 Evaluation Protocol
+
+We employ 5-fold cross-validation, where each fold uses 80% of the data for training and 20% for validation. Performance metrics include accuracy, F1-score (macro-averaged), and area under the ROC curve (AUC). Statistical comparisons between methods use the Wilcoxon signed-rank test on per-fold metrics, with significance threshold alpha = 0.05. Effect sizes are reported using Cohen's d.

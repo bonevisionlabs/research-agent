@@ -1,0 +1,202 @@
+{
+  "metadata": {
+    "name": "Default Research Paper Workflow",
+    "description": "A 16-task DAG for producing a publication-ready research paper, executed by 4 agent roles: literature, evaluation, figures, and writer.",
+    "version": "1.0.0",
+    "agents": ["literature", "evaluation", "figures", "writer"]
+  },
+  "tasks": [
+    {
+      "id": "lit_search",
+      "name": "Literature Search",
+      "agent": "literature",
+      "depends_on": [],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "lit_analysis",
+      "name": "Literature Analysis & Synthesis",
+      "agent": "literature",
+      "depends_on": ["lit_search"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "lit_gaps",
+      "name": "Research Gap Identification",
+      "agent": "literature",
+      "depends_on": ["lit_analysis"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "lit_related_work",
+      "name": "Related Work Section Draft",
+      "agent": "literature",
+      "depends_on": ["lit_gaps"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "eval_metrics",
+      "name": "Compute Evaluation Metrics",
+      "agent": "evaluation",
+      "depends_on": [],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "eval_stats",
+      "name": "Statistical Significance Tests",
+      "agent": "evaluation",
+      "depends_on": ["eval_metrics"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "eval_comparison",
+      "name": "Baseline Comparison Analysis",
+      "agent": "evaluation",
+      "depends_on": ["eval_stats"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "eval_tables",
+      "name": "Generate Result Tables",
+      "agent": "evaluation",
+      "depends_on": ["eval_comparison"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "fig_pipeline",
+      "name": "Pipeline / Architecture Diagram",
+      "agent": "figures",
+      "depends_on": [],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "fig_results",
+      "name": "Result Plots & Visualizations",
+      "agent": "figures",
+      "depends_on": ["eval_metrics"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "fig_comparison",
+      "name": "Comparison Figures",
+      "agent": "figures",
+      "depends_on": ["eval_comparison"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "write_intro",
+      "name": "Write Introduction",
+      "agent": "writer",
+      "depends_on": ["lit_gaps"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "write_methods",
+      "name": "Write Methods Section",
+      "agent": "writer",
+      "depends_on": ["fig_pipeline"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "write_results",
+      "name": "Write Results Section",
+      "agent": "writer",
+      "depends_on": ["eval_tables", "fig_results", "fig_comparison"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "write_discussion",
+      "name": "Write Discussion",
+      "agent": "writer",
+      "depends_on": ["write_intro", "write_results", "lit_related_work"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "compile_draft",
+      "name": "Compile & Review Full Draft",
+      "agent": "writer",
+      "depends_on": ["write_intro", "write_methods", "write_results", "write_discussion"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    }
+  ]
+}

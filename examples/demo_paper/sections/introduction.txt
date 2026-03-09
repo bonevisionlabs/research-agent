@@ -1,0 +1,7 @@
+Image classification remains a fundamental challenge in computer vision with broad applications spanning medical imaging, autonomous driving, and industrial quality control. While recent advances in deep learning have yielded impressive results on standard benchmarks, deploying these models in domain-specific settings often requires careful adaptation of architectures and training procedures.
+
+General-purpose pre-trained models, while powerful, may not capture the fine-grained features critical for specialized classification tasks. Transfer learning approaches have shown promise, but the optimal strategy for adapting pre-trained representations to new domains remains an active area of research.
+
+In this work, we present an automated classification pipeline that combines transfer learning with domain-specific fine-tuning and data augmentation. Our approach is fully automated from raw images to final predictions, requiring no manual feature engineering or intermediate supervision. We evaluate our method using rigorous 5-fold cross-validation on a benchmark dataset and demonstrate statistically significant improvements over baseline approaches.
+
+The remainder of this paper is organized as follows. We review related work in Section 2, describe our methodology in Section 3, present experimental results in Section 4, and discuss implications and limitations in Section 5.
