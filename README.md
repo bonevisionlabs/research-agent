@@ -24,7 +24,7 @@ Every "AI research agent" framework creates a complex multi-agent system where L
 │                                  │
 │  figures.py   metrics.py         │
 │  docx_builder.py  workflow.py    │
-│  review_criteria.py  utils.py    │
+│  feedback.py  review_criteria.py │
 │                                  │
 │  Pure Python. Zero API calls.    │
 └──────────────────────────────────┘
@@ -101,6 +101,7 @@ Claude Code:
 | **docx_builder** | DOCX paper compilation | `compile_paper()`, `insert_figure()`, `insert_table()` |
 | **review_criteria** | Peer review rubrics & checklists | `REVIEW_CRITERIA`, `COMPLETENESS_CHECKLIST` |
 | **workflow** | DAG-based task state tracking | `Workflow`, `Task`, `next_tasks()` |
+| **feedback** | Self-learning feedback loop | `FeedbackLoop`, `create_review()`, `create_lesson()` |
 
 ## Features
 
@@ -118,10 +119,17 @@ Claude Code:
 - Cross-validation fold statistics
 
 ### Workflow Tracking
-- DAG-based task dependencies
+- DAG-based task dependencies with 22-task paper workflow template
 - Resumable across sessions
 - JSON state on disk (no databases)
 - Template system for common workflows
+
+### Self-Learning Feedback Loop
+- Review each section against weighted criteria (methodology, writing quality, completeness, etc.)
+- Extract reusable **Lessons** (anti-pattern + correction) with confidence scores
+- Lessons persist and are surfaced as guidance on future tasks
+- Automatic retry decisions when quality falls below threshold
+- Confidence grows with reinforcement, decays when lessons don't help
 
 ### Paper Compilation
 - Multi-paper support (N papers, not just 2)

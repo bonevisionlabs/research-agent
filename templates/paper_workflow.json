@@ -1,9 +1,9 @@
 {
   "metadata": {
     "name": "Default Research Paper Workflow",
-    "description": "A 16-task DAG for producing a publication-ready research paper, executed by 4 agent roles: literature, evaluation, figures, and writer.",
-    "version": "1.0.0",
-    "agents": ["literature", "evaluation", "figures", "writer"]
+    "description": "A 22-task DAG for producing a publication-ready research paper with self-learning feedback loop, executed by 5 agent roles: literature, evaluation, figures, writer, and reviewer.",
+    "version": "1.1.0",
+    "agents": ["literature", "evaluation", "figures", "writer", "reviewer"]
   },
   "tasks": [
     {
@@ -187,10 +187,82 @@
       "error": null
     },
     {
+      "id": "review_intro",
+      "name": "Review Introduction",
+      "agent": "reviewer",
+      "depends_on": ["write_intro"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "review_methods",
+      "name": "Review Methods",
+      "agent": "reviewer",
+      "depends_on": ["write_methods"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "review_results",
+      "name": "Review Results",
+      "agent": "reviewer",
+      "depends_on": ["write_results"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "review_discussion",
+      "name": "Review Discussion",
+      "agent": "reviewer",
+      "depends_on": ["write_discussion"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
       "id": "compile_draft",
-      "name": "Compile & Review Full Draft",
+      "name": "Compile Full Draft",
       "agent": "writer",
-      "depends_on": ["write_intro", "write_methods", "write_results", "write_discussion"],
+      "depends_on": ["review_intro", "review_methods", "review_results", "review_discussion"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "review_draft",
+      "name": "Review Full Draft",
+      "agent": "reviewer",
+      "depends_on": ["compile_draft"],
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_s": null,
+      "score": null,
+      "error": null
+    },
+    {
+      "id": "apply_learnings",
+      "name": "Apply Learnings & Archive",
+      "agent": "reviewer",
+      "depends_on": ["review_draft"],
       "status": "pending",
       "started_at": null,
       "completed_at": null,

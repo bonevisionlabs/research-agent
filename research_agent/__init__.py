@@ -13,12 +13,32 @@ Modules:
     metrics         — Statistical tests and evaluation helpers
     review_criteria — Peer review rubrics and completeness checklists
     workflow        — DAG-based task state tracking
+    feedback        — Self-learning feedback loop (review → learn → improve)
 
 Usage (from Claude Code or any orchestrator):
     from research_agent.config import ProjectConfig
     from research_agent.figures import create_pipeline_diagram
     from research_agent.metrics import run_wilcoxon_test
     from research_agent.docx_builder import compile_paper
+    from research_agent.feedback import FeedbackLoop, create_review, create_lesson
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
+
+from .feedback import (
+    FeedbackLoop,
+    Lesson,
+    ReviewResult,
+    build_review_checklist,
+    create_lesson,
+    create_review,
+)
+
+__all__ = [
+    "FeedbackLoop",
+    "ReviewResult",
+    "Lesson",
+    "create_review",
+    "create_lesson",
+    "build_review_checklist",
+]

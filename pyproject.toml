@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "research-agent"
-version = "0.1.0"
+version = "0.2.0"
 description = "PhD-level research paper toolkit — Claude Code as brain, pure Python functions as tools."
 readme = "README.md"
 license = "MIT"

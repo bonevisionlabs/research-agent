@@ -97,6 +97,9 @@ class Task:
     duration_s: Optional[float] = None
     score: Optional[float] = None
     error: Optional[str] = None
+    iteration: int = 0
+    feedback: Optional[Dict[str, Any]] = None
+    max_iterations: int = 3
 
     # -- validation ---------------------------------------------------------
 
@@ -129,6 +132,9 @@ class Task:
             duration_s=data.get("duration_s"),
             score=data.get("score"),
             error=data.get("error"),
+            iteration=data.get("iteration", 0),
+            feedback=data.get("feedback"),
+            max_iterations=data.get("max_iterations", 3),
         )
 
     # -- display ------------------------------------------------------------
@@ -614,6 +620,68 @@ class Workflow:
         task.error = None
         return task
 
+    def retry_task(self, task_id: str) -> Task:
+        """Reset a task for retry, incrementing the iteration counter.
+
+        Unlike :meth:`reset_task`, this preserves ``score`` and ``feedback``
+        from the previous attempt for comparison, and increments
+        ``iteration``.
+
+        Parameters
+        ----------
+        task_id : str
+            The task to retry.
+
+        Returns
+        -------
+        Task
+            The task reset to ``"pending"`` with ``iteration`` incremented.
+
+        Raises
+        ------
+        ValueError
+            If the task has reached ``max_iterations``.
+        """
+        task = self.get_task(task_id)
+        if task.iteration >= task.max_iterations:
+            raise ValueError(
+                f"Task '{task_id}' has reached max iterations "
+                f"({task.max_iterations}).  Accept or reset manually."
+            )
+        task.iteration += 1
+        task.status = "pending"
+        task.started_at = None
+        task.completed_at = None
+        task.duration_s = None
+        task.error = None
+        return task
+
+    def tasks_needing_review(self) -> List[Task]:
+        """Return completed tasks that have no feedback attached yet."""
+        return [
+            t for t in self._tasks.values()
+            if t.status == "completed" and t.feedback is None
+        ]
+
+    def set_feedback(self, task_id: str, feedback: Dict[str, Any]) -> Task:
+        """Attach review feedback to a completed task.
+
+        Parameters
+        ----------
+        task_id : str
+            The task to annotate.
+        feedback : dict
+            Review summary (typically from ``ReviewResult.to_dict()``).
+
+        Returns
+        -------
+        Task
+            The updated task.
+        """
+        task = self.get_task(task_id)
+        task.feedback = feedback
+        return task
+
     # -- progress & summary -------------------------------------------------
 
     def progress(self) -> Dict[str, Any]:
@@ -815,16 +883,54 @@ DEFAULT_PAPER_WORKFLOW: List[Dict[str, Any]] = [
             "lit_related_work",
         ],
     },
+    # -- Reviewer agent --
+    {
+        "id": "review_intro",
+        "name": "Review Introduction",
+        "agent": "reviewer",
+        "depends_on": ["write_intro"],
+    },
+    {
+        "id": "review_methods",
+        "name": "Review Methods",
+        "agent": "reviewer",
+        "depends_on": ["write_methods"],
+    },
+    {
+        "id": "review_results",
+        "name": "Review Results",
+        "agent": "reviewer",
+        "depends_on": ["write_results"],
+    },
+    {
+        "id": "review_discussion",
+        "name": "Review Discussion",
+        "agent": "reviewer",
+        "depends_on": ["write_discussion"],
+    },
+    # -- Compilation & final review --
     {
         "id": "compile_draft",
-        "name": "Compile & Review Full Draft",
+        "name": "Compile Full Draft",
         "agent": "writer",
         "depends_on": [
-            "write_intro",
-            "write_methods",
-            "write_results",
-            "write_discussion",
+            "review_intro",
+            "review_methods",
+            "review_results",
+            "review_discussion",
         ],
+    },
+    {
+        "id": "review_draft",
+        "name": "Review Full Draft",
+        "agent": "reviewer",
+        "depends_on": ["compile_draft"],
+    },
+    {
+        "id": "apply_learnings",
+        "name": "Apply Learnings & Archive",
+        "agent": "reviewer",
+        "depends_on": ["review_draft"],
     },
 ]
 
